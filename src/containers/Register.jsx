@@ -1,17 +1,86 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { registerRequest } from "../actions";
+import axios from "axios";
+import Swal from "sweetalert2";
 import "../assets/styles/components/Register.scss";
+
+const IP = "54.172.72.74:4000";
+const REGISTER_ENDPOINT = "api/auth/new";
+const REGISTER_URL = `http://${IP}/${REGISTER_ENDPOINT}`;
+
+// const SLOW_REQUEST =
+//   "http://slowwly.robertomurray.co.uk/delay/3000/url/http://www.google.co.uk";
+
+const inputTestValues = {
+  firstName: "Larry",
+  lastName: "Hudson",
+  typeId: 13,
+  id: "187658738",
+  phone: "+5964349",
+  email: "betty@holberton.com",
+  password: "123456789",
+  passwordConfirmation: "123456789",
+};
 
 const Register = (props) => {
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [isValidPassword, setisValidPassword] = useState(false);
   const [isMatchedPassword, setIsMatchedPassword] = useState(false);
+  const [isButtonEnabled, setIsButtonEnabled] = useState(true);
 
   const { register, handleSubmit, errors, getValues } = useForm({});
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const cancelRegister = useRef(null);
+
+  useEffect(() => {
+    // Component Unmount
+    return () => {
+      if (cancelRegister.current)
+        cancelRegister.current.cancel("Register Canceled");
+    };
+  }, []);
+
+  const onSubmit = async (data) => {
+    setIsButtonEnabled(false);
+
+    cancelRegister.current = axios.CancelToken.source();
+
+    const options = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cancelToken: cancelRegister.current.token,
+    };
+
+    const postObject = {
+      name: data.firstName,
+      lastName: data.lastName,
+      idType: Number(data.typeId),
+      identification: data.id,
+      email: data.email,
+      password: data.password,
+    };
+
+    let response;
+
+    try {
+      response = await axios.post(REGISTER_URL, postObject, options);
+      if (response.statua === 201) props.registerRequest(data);
+      props.history.push("/");
+      //
+    } catch (err) {
+      console.log(err.response);
+      setIsButtonEnabled(true);
+
+      Swal.fire({
+        title: err.response.data.msg,
+        icon: "warning",
+        confirmButtonText: "Try another id",
+      });
+    }
   };
 
   const validatePassword = () => {
@@ -58,6 +127,7 @@ const Register = (props) => {
                   id="inputNombre"
                   name="firstName"
                   ref={register({ required: true })}
+                  defaultValue={inputTestValues.firstName}
                 />
                 {errors.firstName && errors.firstName.type === "required" && (
                   <span className="required_message">
@@ -76,6 +146,7 @@ const Register = (props) => {
                   id="inputApellido"
                   name="lastName"
                   ref={register({ required: true })}
+                  defaultValue={inputTestValues.lastName}
                 />
                 {errors.lastName && errors.lastName.type === "required" && (
                   <span className="required_message">
@@ -92,6 +163,7 @@ const Register = (props) => {
                   id="tipo_id"
                   name="typeId"
                   ref={register({ required: true })}
+                  defaultValue={inputTestValues.typeId}
                 >
                   <option value=""></option>
                   <option value="13">Cédula de Ciudadanía</option>
@@ -115,6 +187,7 @@ const Register = (props) => {
                   id="inputIdentificacion"
                   name="id"
                   ref={register({ required: true })}
+                  defaultValue={inputTestValues.id}
                 />
                 {errors.id && errors.id.type === "required" && (
                   <span className="required_message">
@@ -133,6 +206,7 @@ const Register = (props) => {
                   id="inputTelefono"
                   name="phone"
                   ref={register({ required: true })}
+                  defaultValue={inputTestValues.phone}
                 />
                 {errors.phone && errors.phone.type === "required" && (
                   <span className="required_message">
@@ -150,6 +224,7 @@ const Register = (props) => {
                   placeholder=""
                   name="email"
                   ref={register({ required: true })}
+                  defaultValue={inputTestValues.email}
                 />
                 {errors.email && errors.email.type === "required" && (
                   <span className="required_message">
@@ -175,6 +250,7 @@ const Register = (props) => {
                     required: true,
                     validate: () => isValidPassword,
                   })}
+                  defaultValue={inputTestValues.password}
                 />
                 {!isValidPassword &&
                   hasSubmitted &&
@@ -205,6 +281,7 @@ const Register = (props) => {
                     required: true,
                     validate: () => isMatchedPassword,
                   })}
+                  defaultValue={inputTestValues.passwordConfirmation}
                 />
                 {!isMatchedPassword &&
                   hasSubmitted &&
@@ -229,6 +306,7 @@ const Register = (props) => {
                   setHasSubmitted(true);
                   validatePassword();
                 }}
+                disabled={!isButtonEnabled}
               >
                 Enviar
               </button>
@@ -243,4 +321,9 @@ const Register = (props) => {
   );
 };
 
-export default Register;
+const mapDispatchToProps = {
+  registerRequest,
+};
+
+// export default Register;
+export default connect(null, mapDispatchToProps)(Register);
