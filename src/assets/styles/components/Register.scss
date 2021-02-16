@@ -1,0 +1,19 @@
+@import "../Vars.scss";
+
+.register_to_login {
+  margin: 0;
+}
+
+.required_message {
+  color: $validationError;
+}
+
+@media screen and (max-width: 767px) {
+  .register_to_login {
+    margin-top: 30px;
+  }
+
+  .register_submit_btn {
+    width: 70%;
+  }
+}

@@ -1,0 +1,21 @@
+@import "../Vars.scss";
+
+.header {
+  @include flexbox;
+  background-color: $main-color;
+  justify-content: space-between;
+  padding-left: 100px;
+  padding-right: 100px;
+  width: 100%;
+  height: $header-height;
+}
+
+.header a {
+  text-decoration: none;
+  color: $text-white;
+}
+
+img {
+  width: 100px;
+  filter: brightness(0) invert(1);
+}

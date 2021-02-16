@@ -1,0 +1,19 @@
+@import url(https://fonts.googleapis.com/css2?family=Lato&display=swap);
+
+$theme-font: "Lato", sans-serif;
+
+// Color Palette
+$main-color: #276678;
+$palette-2: #1687a7;
+$palette-3: #d3e0ea;
+$text-white: #f6f5f5;
+$validationError: #c72636;
+$header-height: 10vh;
+$footer-height: 10vh;
+
+@mixin flexbox($direction: row) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: center;
+  align-items: center;
+}

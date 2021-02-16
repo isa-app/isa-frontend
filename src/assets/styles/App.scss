@@ -1,0 +1,19 @@
+@import "./Vars.scss";
+
+// html,
+// body,
+// #app,
+// .App {
+//   height: 100%;
+// }
+
+body {
+  margin: 0;
+  font-family: $theme-font;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}

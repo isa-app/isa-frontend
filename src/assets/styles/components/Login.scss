@@ -1,0 +1,13 @@
+@import "../Vars.scss";
+
+.register_to_login {
+  margin: 0;
+}
+
+.required_message {
+  color: $validationError;
+}
+
+.login {
+  width: 300px;
+}
