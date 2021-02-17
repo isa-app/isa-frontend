@@ -18,7 +18,7 @@ const inputTestValues = {
   firstName: "Larry",
   lastName: "Hudson",
   typeId: 13,
-  id: "0000000006",
+  id: "0000000008",
   phone: "+5964349",
   email: "betty@holberton.com",
   password: "123456789",
@@ -30,6 +30,7 @@ const Register = (props) => {
   const [isValidPassword, setisValidPassword] = useState(false);
   const [isMatchedPassword, setIsMatchedPassword] = useState(false);
   const [isButtonEnabled, setIsButtonEnabled] = useState(true);
+  const [isUnmounted, setIsUnmounted] = useState(false);
 
   const { register, handleSubmit, errors, getValues } = useForm({});
 
@@ -38,6 +39,7 @@ const Register = (props) => {
   useEffect(() => {
     // Component Unmount
     return () => {
+      setIsUnmounted(true);
       if (cancelRegister.current)
         cancelRegister.current.cancel("Register Canceled");
     };
@@ -70,15 +72,16 @@ const Register = (props) => {
       response = await axios.post(REGISTER_URL, postObject, options);
       console.log(response.data);
       if (response.status === 201) props.registerRequest(data);
-      props.history.push("/");
+      // props.history.push("/");
       //
     } catch (err) {
-      setIsButtonEnabled(true);
-
-      if (err.response && err.response.status === 400)
-        displayAlert("ID_ALREADY_EXISTS");
-      else if (!err.response || err.response.status === 500)
-        displayAlert("SERVER_ERROR");
+      if (!isUnmounted) {
+        setIsButtonEnabled(true);
+        if (err.response && err.response.status === 400)
+          displayAlert("ID_ALREADY_EXISTS");
+        else if (err.response && err.response.status === 500)
+          displayAlert("SERVER_ERROR");
+      }
 
       //
     }
