@@ -3,8 +3,9 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { registerRequest } from "../actions";
+import { displayAlert } from "../utils/errors";
 import axios from "axios";
-import Swal from "sweetalert2";
+
 import "../assets/styles/components/Register.scss";
 
 const IP = "54.172.72.74:4000";
@@ -18,7 +19,7 @@ const inputTestValues = {
   firstName: "Larry",
   lastName: "Hudson",
   typeId: 13,
-  id: "187658738",
+  id: "0000000000",
   phone: "+5964349",
   email: "betty@holberton.com",
   password: "123456789",
@@ -68,18 +69,18 @@ const Register = (props) => {
 
     try {
       response = await axios.post(REGISTER_URL, postObject, options);
-      if (response.statua === 201) props.registerRequest(data);
+      if (response.status === 201) props.registerRequest(data);
       props.history.push("/");
       //
     } catch (err) {
-      console.log(err.response);
       setIsButtonEnabled(true);
 
-      Swal.fire({
-        title: err.response.data.msg,
-        icon: "warning",
-        confirmButtonText: "Try another id",
-      });
+      if (err.response && err.response.status === 400) {
+        displayAlert("ID_ALREADY_EXISTS");
+      } else {
+        displayAlert("SERVER_ERROR");
+      }
+      //
     }
   };
 
