@@ -18,7 +18,7 @@ export function displayAlert(alertType) {
     case "SERVER_ERROR":
       alert.title = "El servidor no está disponible";
       alert.icon = "error";
-      alert.confirmButtonText = "Comuniquese con el administrador";
+      alert.confirmButtonText = "Comuníquese con el administrador";
       break;
 
     default:

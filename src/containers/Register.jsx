@@ -5,7 +5,9 @@ import { useForm } from "react-hook-form";
 import { registerRequest } from "../actions";
 import { displayAlert } from "../utils/errors";
 import axios from "axios";
+import Loader from "../components/Loader";
 import "../assets/styles/components/Register.scss";
+import "../assets/styles/components/Loader.scss";
 
 const IP = "54.172.72.74:4000";
 const REGISTER_ENDPOINT = "api/auth/new";
@@ -18,7 +20,7 @@ const inputTestValues = {
   firstName: "Larry",
   lastName: "Hudson",
   typeId: 13,
-  id: "0000000008",
+  id: "0000000018",
   phone: "+5964349",
   email: "betty@holberton.com",
   password: "123456789",
@@ -114,6 +116,14 @@ const Register = (props) => {
   const invalidPasswordMsg = "⚠ Mín. 8 Caracteres";
   const invalidPasswordConfirmationMsg = "⚠ No coincide";
   const requiredFieldMessage = "Este campo es requerido";
+
+  if (!isButtonEnabled) {
+    return (
+      <div className="loader container d-flex justify-content-center align-items-center">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div className="container d-flex justify-content-center align-items-center my-2">

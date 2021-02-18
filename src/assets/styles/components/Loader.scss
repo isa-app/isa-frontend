@@ -1,0 +1,5 @@
+@import "../Vars.scss";
+
+.loader {
+  height: calc(100vh - #{$header-height} - #{$footer-height});
+}
