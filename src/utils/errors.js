@@ -21,6 +21,12 @@ export function displayAlert(alertType) {
       alert.confirmButtonText = "Comuníquese con el administrador";
       break;
 
+    case "WRONG_ID_PASSWORD":
+      alert.title = "Credenciales incorrectos";
+      alert.icon = "error";
+      alert.confirmButtonText = "Intentelo nuevamente";
+      break;
+
     default:
       break;
   }

@@ -1,35 +1,83 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { displayAlert } from "../utils/errors";
 import "../assets/styles/components/Login.scss";
+import Loader from "../components/Loader";
+import axios from "axios";
 
-const axios = require('axios');
+const IP = "54.172.72.74:4000";
+const LOGIN_ENDPOINT = "api/auth";
+const LOGIN_URL = `http://${IP}/${LOGIN_ENDPOINT}`;
 
-const Login = () => {
-  const [submitted, setSubmitted] = useState("");
+
+const Login = (props) => {
+  const [isUnmounted, setIsUnmounted] = useState(false);
+  const [isButtonEnabled, setIsButtonEnabled] = useState(true);
 
   const { register, handleSubmit, errors } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data)
+  const cancelRegister = useRef(null);
 
-    axios.post('http://54.172.72.74:4000/api/auth', {
+  useEffect(() => {
+    // Component Unmount
+    return () => {
+      setIsUnmounted(true);
+      if (cancelRegister.current)
+        cancelRegister.current.cancel("Register Canceled");
+    };
+  }, []);
+
+  const onSubmit = async (data) => {
+    setIsButtonEnabled(false);
+
+    cancelRegister.current = axios.CancelToken.source();
+
+    const options = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cancelToken: cancelRegister.current.token,
+    };
+
+    const postObject = {
       identification: data.user,
       password: data.password
-    })
-      .then(function (response) {
-        console.log(response);
-        setSubmitted("400")
+    };
 
-      })
-      .catch(function (error) {
-        setSubmitted("500")
+    let response;
 
-      });
-  }
+    try {
+      response = await axios.post(LOGIN_URL, postObject, options);
+      console.log(response.data);
+      if (response.status === 201); {
+        //props.loginRequest(data)
+      }
+      props.history.push("/");
+      //
+    } catch (err) {
+      if (!isUnmounted) {
+        setIsButtonEnabled(true);
+        if (err.response && err.response.status === 400)
+          displayAlert("WRONG_ID_PASSWORD");
+        else if (err.response && err.response.status === 500)
+          displayAlert("SERVER_ERROR");
+      }
+
+      //
+    }
+  };
 
   const requiredFieldMessage = "Este campo es requerido";
+
+  if (!isButtonEnabled) {
+    return (
+      <div className="loader container d-flex justify-content-center align-items-center">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div className="container d-flex justify-content-center align-items-center my-2">
@@ -76,13 +124,6 @@ const Login = () => {
                 <p className="register_to_login">Registro</p>
               </Link>
             </div>
-            {submitted === "500" && <span className="required_message">
-              {"Intentalo mas tarde"}
-            </span>}
-            {submitted === "400" && <span className="required_message">
-              {"Credenciales invalidas"}
-            </span>}
-
           </form>
         </div>
       </div >
@@ -90,4 +131,7 @@ const Login = () => {
   );
 };
 
+
+
 export default Login;
+//export default connect(null, mapDispatchToProps)(Login);
