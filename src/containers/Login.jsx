@@ -8,6 +8,11 @@ import Loader from "../components/Loader";
 import axios from "axios";
 import "../assets/styles/components/Login.scss";
 
+const inputTestValues = {
+  id: "0000000030",
+  password: "123456789",
+};
+
 const Login = (props) => {
   const [isUnmounted, setIsUnmounted] = useState(false);
   const [isButtonEnabled, setIsButtonEnabled] = useState(true);
@@ -47,11 +52,11 @@ const Login = (props) => {
     try {
       response = await axios.post(LOGIN_URL, postObject, options);
       console.log(response.data);
-      // if (response.status === 201);
-      // {
-      //   props.loginRequest(data)
-      // }
-      props.history.push("/");
+      if (response.status === 201);
+      {
+        // props.loginRequest(data)
+        props.history.push(`/profile/${response.data.uid}`);
+      }
       //
     } catch (err) {
       if (!isUnmounted) {
@@ -77,11 +82,11 @@ const Login = (props) => {
   }
 
   return (
-    <div className="container d-flex justify-content-center align-items-center my-2">
+    <div className="login container d-flex justify-content-center align-items-center my-2">
       <div className="card m-4 px-4 py-1">
         <div className="card-body p-0">
           {/* Form Login */}
-          <form className="m-3 login" onSubmit={handleSubmit(onSubmit)}>
+          <form className="m-3 login-form" onSubmit={handleSubmit(onSubmit)}>
             <h2 className="pb-2 d-flex flex justify-content-center">Login</h2>
 
             {/* User */}
@@ -94,6 +99,7 @@ const Login = (props) => {
                   name="user"
                   className="form-control"
                   ref={register({ required: true })}
+                  defaultValue={inputTestValues.id}
                 />
                 {errors.user && (
                   <span className="required_message">
@@ -113,6 +119,7 @@ const Login = (props) => {
                   name="password"
                   className="form-control"
                   ref={register({ required: true })}
+                  defaultValue={inputTestValues.password}
                 />
                 {errors.password && (
                   <span className="required_message">

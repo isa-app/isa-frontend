@@ -17,7 +17,7 @@ const inputTestValues = {
   firstName: "Larry",
   lastName: "Hudson",
   typeId: 13,
-  id: "0000000021",
+  id: "0000000030",
   phone: "+5964349",
   email: "betty@holberton.com",
   password: "123456789",
@@ -62,6 +62,7 @@ const Register = (props) => {
       lastName: data.lastName,
       idType: Number(data.typeId),
       identification: data.id,
+      phone: data.phone,
       email: data.email,
       password: data.password,
     };
@@ -124,7 +125,7 @@ const Register = (props) => {
   }
 
   return (
-    <div className="container d-flex justify-content-center align-items-center my-2">
+    <div className="register container d-flex justify-content-center align-items-center my-2">
       <div className="card m-4 px-4 py-1">
         <div className="card-body p-0">
           <form className="m-3" onSubmit={handleSubmit(onSubmit)}>

@@ -1,5 +1,9 @@
 @import "../Vars.scss";
 
+.register {
+  height: calc(100vh - #{$header-height} - #{$footer-height});
+}
+
 .register_to_login {
   margin: 0;
 }

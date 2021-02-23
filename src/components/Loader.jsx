@@ -2,10 +2,10 @@ import { default as ReactLoader } from "react-loader-spinner";
 
 import React from "react";
 
-function Loader() {
+function Loader({ type }) {
   return (
     <ReactLoader
-      type="MutatingDots"
+      type={type}
       color="#276678"
       secondaryColor="#1687a7"
       height={100}
@@ -13,5 +13,9 @@ function Loader() {
     />
   );
 }
+
+Loader.defaultProps = {
+  type: "MutatingDots",
+};
 
 export default Loader;
