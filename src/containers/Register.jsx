@@ -4,14 +4,11 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { registerRequest } from "../actions";
 import { displayAlert } from "../utils/errors";
+import { REGISTER_URL } from "../utils/constants";
 import axios from "axios";
 import Loader from "../components/Loader";
 import "../assets/styles/components/Register.scss";
 import "../assets/styles/components/Loader.scss";
-
-const IP = "54.172.72.74:4000";
-const REGISTER_ENDPOINT = "api/auth/new";
-const REGISTER_URL = `http://${IP}/${REGISTER_ENDPOINT}`;
 
 // const SLOW_REQUEST =
 //   "http://slowwly.robertomurray.co.uk/delay/3000/url/http://www.google.co.uk";
@@ -20,7 +17,7 @@ const inputTestValues = {
   firstName: "Larry",
   lastName: "Hudson",
   typeId: 13,
-  id: "0000000018",
+  id: "0000000021",
   phone: "+5964349",
   email: "betty@holberton.com",
   password: "123456789",
@@ -48,6 +45,7 @@ const Register = (props) => {
   }, []);
 
   const onSubmit = async (data) => {
+    console.log(data);
     setIsButtonEnabled(false);
 
     cancelRegister.current = axios.CancelToken.source();

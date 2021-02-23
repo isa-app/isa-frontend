@@ -3,14 +3,10 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { displayAlert } from "../utils/errors";
-import "../assets/styles/components/Login.scss";
+import { LOGIN_URL } from "../utils/constants";
 import Loader from "../components/Loader";
 import axios from "axios";
-
-const IP = "54.172.72.74:4000";
-const LOGIN_ENDPOINT = "api/auth";
-const LOGIN_URL = `http://${IP}/${LOGIN_ENDPOINT}`;
-
+import "../assets/styles/components/Login.scss";
 
 const Login = (props) => {
   const [isUnmounted, setIsUnmounted] = useState(false);
@@ -43,7 +39,7 @@ const Login = (props) => {
 
     const postObject = {
       identification: data.user,
-      password: data.password
+      password: data.password,
     };
 
     let response;
@@ -51,9 +47,10 @@ const Login = (props) => {
     try {
       response = await axios.post(LOGIN_URL, postObject, options);
       console.log(response.data);
-      if (response.status === 201); {
-        //props.loginRequest(data)
-      }
+      // if (response.status === 201);
+      // {
+      //   props.loginRequest(data)
+      // }
       props.history.push("/");
       //
     } catch (err) {
@@ -83,7 +80,6 @@ const Login = (props) => {
     <div className="container d-flex justify-content-center align-items-center my-2">
       <div className="card m-4 px-4 py-1">
         <div className="card-body p-0">
-
           {/* Form Login */}
           <form className="m-3 login" onSubmit={handleSubmit(onSubmit)}>
             <h2 className="pb-2 d-flex flex justify-content-center">Login</h2>
@@ -92,23 +88,37 @@ const Login = (props) => {
             <div className="form-row">
               <div className="form-group col-12">
                 <label htmlFor="user">Número de identificación</label>
-                <input type='text' id="user" name="user" className="form-control" ref={register({ required: true })}
+                <input
+                  type="text"
+                  id="user"
+                  name="user"
+                  className="form-control"
+                  ref={register({ required: true })}
                 />
-                {errors.user && <span className="required_message">
-                  {requiredFieldMessage}
-                </span>}
+                {errors.user && (
+                  <span className="required_message">
+                    {requiredFieldMessage}
+                  </span>
+                )}
               </div>
             </div>
 
             {/* Password */}
             <div className="form-row">
               <div className="form-group col-12">
-                <label htmlFor='password'>Contraseña</label>
-                <input type='password' id="password" name="password" className="form-control" ref={register({ required: true })}
+                <label htmlFor="password">Contraseña</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  className="form-control"
+                  ref={register({ required: true })}
                 />
-                {errors.password && <span className="required_message">
-                  {requiredFieldMessage}
-                </span>}
+                {errors.password && (
+                  <span className="required_message">
+                    {requiredFieldMessage}
+                  </span>
+                )}
               </div>
             </div>
 
@@ -120,18 +130,16 @@ const Login = (props) => {
               >
                 Entrar
               </button>
-              <Link to="/register" >
+              <Link to="/register">
                 <p className="register_to_login">Registro</p>
               </Link>
             </div>
           </form>
         </div>
-      </div >
-    </div >
+      </div>
+    </div>
   );
 };
-
-
 
 export default Login;
 //export default connect(null, mapDispatchToProps)(Login);
