@@ -1,4 +1,6 @@
-const IP = "54.172.72.74:4000";
+// const IP = "54.172.72.74:4000";
+
+const IP = "localhost:4000";
 
 const REGISTER_ENDPOINT = "api/auth/new";
 export const REGISTER_URL = `http://${IP}/${REGISTER_ENDPOINT}`;

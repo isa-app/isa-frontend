@@ -21,16 +21,16 @@ const personalData = {
 function Profile(props) {
   const { userId } = props.match.params;
 
-  const [user, setUser] = useState({
-    name: "Larry",
-    lastName: "Hudson",
-    idType: 13,
-    identification: "123456789",
-    email: "larry@gmail.com",
-    phone: "57493184",
-  });
+  // const [user, setUser] = useState({
+  //   name: "Larry",
+  //   lastName: "Hudson",
+  //   idType: 13,
+  //   identification: "123456789",
+  //   email: "larry@gmail.com",
+  //   phone: "57493184",
+  // });
 
-  // const [user, setUser] = useState({});
+  const [user, setUser] = useState({});
 
   useEffect(() => {
     const cancelProfile = axios.CancelToken.source();
@@ -59,13 +59,14 @@ function Profile(props) {
     };
   }, []);
 
-  if (Object.keys(user).length === 0) {
-    return (
-      <div className="loader container d-flex justify-content-center align-items-center">
-        <Loader type="ThreeDots" />
-      </div>
-    );
-  }
+  // if (Object.keys(user).length === 0) {
+  //   return (
+  //     <div className="loader container d-flex justify-content-center align-items-center">
+  //       {/* <Loader type="ThreeDots" /> */}
+  //       <Loader />
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="profile_section d-flex justify-content-center align-items-center">
