@@ -55,6 +55,7 @@ const Register = (props) => {
         "Content-Type": "application/json",
       },
       cancelToken: cancelRegister.current.token,
+      withCredentials: true,
     };
 
     const postObject = {

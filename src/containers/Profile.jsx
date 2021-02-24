@@ -3,8 +3,9 @@ import { Card, Button } from "react-bootstrap";
 import ProfileRow from "../components/ProfileRow";
 import { PROFILE_URL } from "../utils/constants";
 import axios from "axios";
-import Loader from "../components/Loader";
 import "../assets/styles/components/Profile.scss";
+
+// import Loader from "../components/Loader";
 
 // const SLOW_REQUEST =
 //   "http://slowwly.robertomurray.co.uk/delay/3000/url/http://www.google.co.uk";
@@ -13,9 +14,18 @@ const personalData = {
   name: "Nombre",
   lastName: "Apellido",
   email: "Email",
-  identification: "Identificación",
   idType: "Tipo de Id",
+  identification: "Identificación",
   phone: "Teléfono",
+};
+
+const profileIcon = {
+  name: "flaticon-avatar",
+  lastName: "flaticon-avatar",
+  email: "flaticon-envelope",
+  idType: "flaticon-tag",
+  identification: "flaticon-tag",
+  phone: "flaticon-phone-call",
 };
 
 function Profile(props) {
@@ -44,6 +54,8 @@ function Profile(props) {
       try {
         response = await axios.get(`${PROFILE_URL}/${userId}`, options);
         console.log(response.data);
+        setUser(response.data.user);
+
         // if (response.status === 201) props.registerRequest(data);
         // props.history.push("/");
         //
@@ -71,9 +83,8 @@ function Profile(props) {
   return (
     <div className="profile_section d-flex justify-content-center align-items-center">
       <Card className="card">
-        <Card.Img variant="top" src="holder.js/100px180" />
-        <Card.Body>
-          <Card.Title>Datos Personales</Card.Title>
+        <Card.Body className="p-5">
+          <h4 className="mb-4">Datos Personales</h4>
           {Object.keys(personalData).map((item, index) => {
             let bB = true;
             if (index + 1 === Object.keys(personalData).length) bB = false;
@@ -83,6 +94,7 @@ function Profile(props) {
                 title={personalData[item]}
                 value={user[item]}
                 borderBottom={bB}
+                icon={profileIcon[item]}
                 key={personalData[item]}
               />
             );
@@ -91,6 +103,19 @@ function Profile(props) {
           <Button variant="primary mt-4">Editar Datos</Button>
         </Card.Body>
       </Card>
+      <div className="attribution">
+        Icons made by{" "}
+        <a
+          href="https://www.flaticon.com/authors/gregor-cresnar"
+          title="Gregor Cresnar"
+        >
+          Gregor Cresnar
+        </a>{" "}
+        from{" "}
+        <a href="https://www.flaticon.com/" title="Flaticon">
+          www.flaticon.com
+        </a>
+      </div>
     </div>
   );
 }
