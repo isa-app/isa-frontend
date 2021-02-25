@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Card, Button } from "react-bootstrap";
 import ProfileRow from "../components/ProfileRow";
 import { PROFILE_URL } from "../utils/constants";
+import { displayAlert } from "../utils/errors";
 import axios from "axios";
 import "../assets/styles/components/Profile.scss";
 
@@ -31,16 +32,9 @@ const profileIcon = {
 function Profile(props) {
   const { userId } = props.match.params;
 
-  // const [user, setUser] = useState({
-  //   name: "Larry",
-  //   lastName: "Hudson",
-  //   idType: 13,
-  //   identification: "123456789",
-  //   email: "larry@gmail.com",
-  //   phone: "57493184",
-  // });
-
   const [user, setUser] = useState({});
+  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+  const [isUnmounted, setIsUnmounted] = useState(false);
 
   useEffect(() => {
     const cancelProfile = axios.CancelToken.source();
@@ -53,23 +47,26 @@ function Profile(props) {
     (async () => {
       try {
         response = await axios.get(`${PROFILE_URL}/${userId}`, options);
-        console.log(response.data);
-        setUser(response.data.user);
-
-        // if (response.status === 201) props.registerRequest(data);
-        // props.history.push("/");
-        //
+        if (response.status === 200) {
+          setUser(response.data.user);
+          setIsButtonEnabled(true);
+        }
       } catch (err) {
-        console.log(err.message);
+        if (!isUnmounted) {
+          if (err.response && err.response.status === 401)
+            displayAlert("UNAUTHORIZED");
+          else if (err.response && err.response.status === 403)
+            displayAlert("FORBIDDEN");
+          else if (err.response && err.response.status === 500)
+            displayAlert("SERVER_ERROR");
+        }
       }
     })();
-
-    console.log("useEffect");
     return () => {
+      setIsUnmounted(true);
       cancelProfile.cancel("Profile Request Canceled");
-      console.log("Unmount");
     };
-  }, []);
+  }, [userId, isUnmounted]);
 
   // if (Object.keys(user).length === 0) {
   //   return (
@@ -100,22 +97,24 @@ function Profile(props) {
             );
           })}
 
-          <Button variant="primary mt-4">Editar Datos</Button>
+          <Button variant="primary mt-4" disabled={!isButtonEnabled}>
+            Editar Datos
+          </Button>
         </Card.Body>
+        <div className="attribution">
+          Icons made by{" "}
+          <a
+            href="https://www.flaticon.com/authors/gregor-cresnar"
+            title="Gregor Cresnar"
+          >
+            Gregor Cresnar
+          </a>{" "}
+          from{" "}
+          <a href="https://www.flaticon.com/" title="Flaticon">
+            www.flaticon.com
+          </a>
+        </div>
       </Card>
-      <div className="attribution">
-        Icons made by{" "}
-        <a
-          href="https://www.flaticon.com/authors/gregor-cresnar"
-          title="Gregor Cresnar"
-        >
-          Gregor Cresnar
-        </a>{" "}
-        from{" "}
-        <a href="https://www.flaticon.com/" title="Flaticon">
-          www.flaticon.com
-        </a>
-      </div>
     </div>
   );
 }

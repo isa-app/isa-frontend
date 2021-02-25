@@ -8,15 +8,22 @@
   width: auto;
 }
 
-.card {
-  position: relative;
-}
-
 .attribution {
-  position: absolute;
   left: 0;
   bottom: 0;
-  color: white;
+  padding: 0px 10px 10px 10px;
+  color: gray;
   z-index: 10;
   font-size: 12px;
+}
+
+@media screen and (max-width: 575px) {
+  .profile_section {
+    height: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .profile_section .card {
+    width: 90vw;
+  }
 }

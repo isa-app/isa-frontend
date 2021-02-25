@@ -15,6 +15,18 @@ export function displayAlert(alertType) {
       alert.confirmButtonText = "Intentar con otra ID";
       break;
 
+    case "UNAUTHORIZED":
+      alert.title = "No está autorizado";
+      alert.icon = "warning";
+      alert.confirmButtonText = "Debe iniciar sesión";
+      break;
+
+    case "FORBIDDEN":
+      alert.title = "No tiene permisos";
+      alert.icon = "error";
+      alert.confirmButtonText = "Debe ingresar con la cuenta correcta";
+      break;
+
     case "SERVER_ERROR":
       alert.title = "El servidor no está disponible";
       alert.icon = "error";

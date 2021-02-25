@@ -52,12 +52,9 @@ const Login = (props) => {
 
     try {
       response = await axios.post(LOGIN_URL, postObject, options);
-      console.log(response.data);
       if (response.status === 201);
-      {
-        // props.loginRequest(data)
-        props.history.push(`/profile/${response.data.uid}`);
-      }
+      props.history.push(`/profile/${response.data.uid}`);
+
       //
     } catch (err) {
       if (!isUnmounted) {
@@ -88,7 +85,9 @@ const Login = (props) => {
         <div className="card-body p-0">
           {/* Form Login */}
           <form className="m-3" onSubmit={handleSubmit(onSubmit)}>
-            <h2 className="pb-2 d-flex flex justify-content-center">Iniciar sesión</h2>
+            <h2 className="pb-2 d-flex flex justify-content-center">
+              Iniciar sesión
+            </h2>
 
             {/* User */}
             <div className="form-row">
