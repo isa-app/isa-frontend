@@ -9,13 +9,9 @@ const Header = () => {
       <Link to="/">
         <img src={codeRiseLogo} alt="Code Rise Logo" />
       </Link>
-      <div>
-        <Link to="/login">
-          <h2>Login</h2>
-        </Link>
-        <Link to="/register">
-          <h2>Register</h2>
-        </Link>
+      <div className="login-register">
+        <Link to="/login">Acceder</Link>
+        <Link to="/register">Registro</Link>
       </div>
     </header>
   );
