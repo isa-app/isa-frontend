@@ -84,11 +84,11 @@ const Login = (props) => {
 
   return (
     <div className="login container d-flex justify-content-center align-items-center my-2">
-      <div className="card m-4 px-4 py-1">
+      <div className="card m-4 px-4 py-1 login-form">
         <div className="card-body p-0">
           {/* Form Login */}
-          <form className="m-3 login-form" onSubmit={handleSubmit(onSubmit)}>
-            <h2 className="pb-2 d-flex flex justify-content-center">Login</h2>
+          <form className="m-3" onSubmit={handleSubmit(onSubmit)}>
+            <h2 className="pb-2 d-flex flex justify-content-center">Iniciar sesión</h2>
 
             {/* User */}
             <div className="form-row">
