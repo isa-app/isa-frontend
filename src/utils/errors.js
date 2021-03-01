@@ -34,7 +34,7 @@ export function displayAlert(alertType) {
       break;
 
     case "WRONG_ID_PASSWORD":
-      alert.title = "Credenciales incorrectos";
+      alert.title = "Credenciales incorrectas";
       alert.icon = "error";
       alert.confirmButtonText = "Intentelo nuevamente";
       break;
