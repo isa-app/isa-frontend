@@ -7,6 +7,12 @@
 //   height: 100%;
 // }
 
+.App {
+  min-height: 100vh;
+  position: relative;
+  padding-bottom: $footer-height;
+}
+
 body {
   margin: 0;
   font-family: $theme-font;
@@ -16,4 +22,8 @@ body {
 *:before,
 *:after {
   box-sizing: border-box;
+}
+
+.content-center {
+  min-height: calc(100vh - #{$header-height} - #{$footer-height});
 }

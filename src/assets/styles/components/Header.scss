@@ -3,8 +3,8 @@
 .header {
   @include flexbox;
   background-color: $main-color;
-  justify-content: space-between;
-  padding: 0px 50px;
+  justify-content: space-around;
+  padding: 0px 0px;
   width: 100%;
   height: $header-height;
 }

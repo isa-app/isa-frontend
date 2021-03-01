@@ -80,8 +80,8 @@ const Login = (props) => {
   }
 
   return (
-    <div className="login container d-flex justify-content-center align-items-center my-2">
-      <div className="card m-4 px-4 py-1 login-form">
+    <div className="content-center login container d-flex justify-content-center align-items-center">
+      <div className="card mx-md-4 my-4 px-4 py-1 login-form">
         <div className="card-body p-0">
           {/* Form Login */}
           <form className="m-3" onSubmit={handleSubmit(onSubmit)}>

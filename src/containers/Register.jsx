@@ -127,8 +127,8 @@ const Register = (props) => {
   }
 
   return (
-    <div className="register container d-flex justify-content-center align-items-center my-2">
-      <div className="card m-4 px-4 py-1">
+    <div className="content-center register container d-flex justify-content-center align-items-center">
+      <div className="card mx-md-4 my-4 px-4 py-1">
         <div className="card-body p-0">
           <form className="m-3" onSubmit={handleSubmit(onSubmit)}>
             <h2 className="pb-2">Registro</h2>
