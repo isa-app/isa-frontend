@@ -1,9 +1,5 @@
 @import "../Vars.scss";
 
-.profile_section {
-  height: calc(100vh - #{$header-height} - #{$footer-height});
-}
-
 .profile_section .card {
   width: auto;
 }

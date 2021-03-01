@@ -78,7 +78,7 @@ function Profile(props) {
   // }
 
   return (
-    <div className="profile_section d-flex justify-content-center align-items-center">
+    <div className="content-center my-3 profile_section d-flex justify-content-center align-items-center">
       <Card className="card">
         <Card.Body className="p-5">
           <h4 className="mb-4">Datos Personales</h4>
