@@ -5,6 +5,7 @@ import ProfileRow from "../components/ProfileRow";
 import { PROFILE_URL } from "../utils/constants";
 import { displayAlert } from "../utils/errors";
 import axios from "axios";
+import { UPDATE_PROFILE_URL } from "../utils/constants";
 import "../assets/styles/components/Profile.scss";
 
 // import Loader from "../components/Loader";
@@ -42,16 +43,49 @@ function Profile(props) {
 
   const cancelEdit = useRef(null);
 
-  const onSubmit = (data) => {
-    setIsEditable(false);
-
+  const onSubmit = async (data) => {
     data = Object.fromEntries(
-      Object.entries(data).filter(([_, v]) => v !== "")
+      Object.entries(data).filter(([_, v]) => v.trim() !== "")
     );
 
     if (Object.keys(data).length) {
       // Do Request
       cancelEdit.current = axios.CancelToken.source();
+
+      const options = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        cancelToken: cancelEdit.current.token,
+        withCredentials: true,
+      };
+
+      const postObject = data;
+
+      let response;
+      try {
+        response = await axios.put(
+          `${UPDATE_PROFILE_URL}/${user._id}`,
+          postObject,
+          options
+        );
+        if (response.status === 200) {
+          // props.registerRequest(data);
+          setUser({ ...user, ...data });
+          setIsEditable(false);
+        }
+        //
+      } catch (err) {
+        if (!isUnmounted) {
+          setIsButtonEnabled(true);
+          if (err.response && err.response.status === 404)
+            displayAlert("USER_NOT_FOUND");
+          else if (err.response && err.response.status === 500)
+            displayAlert("SERVER_ERROR");
+        }
+
+        //
+      }
     }
   };
 

@@ -15,6 +15,12 @@ export function displayAlert(alertType) {
       alert.confirmButtonText = "Intentar con otra ID";
       break;
 
+    case "USER_NOT_FOUND":
+      alert.title = "Este usuario ya existe";
+      alert.icon = "warning";
+      alert.confirmButtonText = "Intentar con otra ID";
+      break;
+
     case "UNAUTHORIZED":
       alert.title = "No está autorizado";
       alert.icon = "warning";

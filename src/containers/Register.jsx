@@ -14,12 +14,12 @@ import "../assets/styles/components/Loader.scss";
 //   "http://slowwly.robertomurray.co.uk/delay/3000/url/http://www.google.co.uk";
 
 const inputTestValues = {
-  firstName: "Emilia",
-  lastName: "Clark",
+  firstName: "Darmund",
+  lastName: "Crench",
   typeId: 13,
-  id: "0000000036",
-  phone: "+5964349",
-  email: "betty@holberton.com",
+  id: "0000000040",
+  phone: "+9191982",
+  email: "crench@holberton.com",
   password: "123456789",
   passwordConfirmation: "123456789",
 };
