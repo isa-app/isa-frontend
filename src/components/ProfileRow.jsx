@@ -9,7 +9,17 @@ const idTransform = {
   41: "Pasaporte",
 };
 
-function ProfileRow({ title, value, borderBottom, icon }) {
+const editable = ["email", "phone"];
+
+const ProfileRow = ({
+  title,
+  value,
+  borderBottom,
+  icon,
+  fieldType,
+  isEditable,
+  register,
+}) => {
   let borderClass = "";
 
   if (borderBottom) borderClass += "border-bottom";
@@ -23,11 +33,26 @@ function ProfileRow({ title, value, borderBottom, icon }) {
         <h6 className="my-3 ml-1">{title}</h6>
       </Col>
       <Col xs={12} sm={6} className="d-flex align-items-center pr-4">
-        <span className="my-3 ml-1 text-secondary">{value}</span>
+        {isEditable && editable.includes(fieldType) ? (
+          <input
+            type={fieldType === "email" ? "email" : "text"}
+            className="my-3 ml-1 text-secondary"
+            placeholder={value}
+            name={fieldType}
+            ref={register()}
+          />
+        ) : (
+          <input
+            type="text"
+            className="my-3 ml-1 text-secondary border-0 bg-white"
+            placeholder={value}
+            disabled
+          />
+        )}
       </Col>
     </Row>
   );
-}
+};
 
 ProfileRow.defaultProps = {
   borderBottom: true,

@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Card, Button } from "react-bootstrap";
+import { useForm } from "react-hook-form";
 import ProfileRow from "../components/ProfileRow";
 import { PROFILE_URL } from "../utils/constants";
 import { displayAlert } from "../utils/errors";
@@ -35,6 +36,24 @@ function Profile(props) {
   const [user, setUser] = useState({});
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
   const [isUnmounted, setIsUnmounted] = useState(false);
+  const [isEditable, setIsEditable] = useState(false);
+
+  const { register, handleSubmit } = useForm({});
+
+  const cancelEdit = useRef(null);
+
+  const onSubmit = (data) => {
+    setIsEditable(false);
+
+    data = Object.fromEntries(
+      Object.entries(data).filter(([_, v]) => v !== "")
+    );
+
+    if (Object.keys(data).length) {
+      // Do Request
+      cancelEdit.current = axios.CancelToken.source();
+    }
+  };
 
   useEffect(() => {
     const cancelProfile = axios.CancelToken.source();
@@ -44,29 +63,34 @@ function Profile(props) {
     };
     let response;
 
-    (async () => {
-      try {
-        response = await axios.get(`${PROFILE_URL}/${userId}`, options);
-        if (response.status === 200) {
-          setUser(response.data.user);
-          setIsButtonEnabled(true);
+    if (!Object.keys(user).length) {
+      (async () => {
+        try {
+          response = await axios.get(`${PROFILE_URL}/${userId}`, options);
+          if (response.status === 200) {
+            setUser(response.data.user);
+            setIsButtonEnabled(true);
+          }
+        } catch (err) {
+          if (!isUnmounted) {
+            if (err.response && err.response.status === 401)
+              displayAlert("UNAUTHORIZED");
+            else if (err.response && err.response.status === 403)
+              displayAlert("FORBIDDEN");
+            else if (err.response && err.response.status === 500)
+              displayAlert("SERVER_ERROR");
+          }
         }
-      } catch (err) {
-        if (!isUnmounted) {
-          if (err.response && err.response.status === 401)
-            displayAlert("UNAUTHORIZED");
-          else if (err.response && err.response.status === 403)
-            displayAlert("FORBIDDEN");
-          else if (err.response && err.response.status === 500)
-            displayAlert("SERVER_ERROR");
-        }
-      }
-    })();
+      })();
+    }
+
     return () => {
       setIsUnmounted(true);
       cancelProfile.cancel("Profile Request Canceled");
+      if (cancelEdit.current)
+        cancelEdit.current.cancel("Profile Update Canceled");
     };
-  }, [userId, isUnmounted]);
+  }, [userId, isUnmounted, user]);
 
   // if (Object.keys(user).length === 0) {
   //   return (
@@ -82,24 +106,45 @@ function Profile(props) {
       <Card className="card">
         <Card.Body className="p-5">
           <h4 className="mb-4">Datos Personales</h4>
-          {Object.keys(personalData).map((item, index) => {
-            let bB = true;
-            if (index + 1 === Object.keys(personalData).length) bB = false;
+          <form onSubmit={handleSubmit(onSubmit)}>
+            {Object.keys(personalData).map((item, index) => {
+              let bB = true;
+              if (index + 1 === Object.keys(personalData).length) bB = false;
+              let key = personalData[item];
+              if (isEditable) key += "_Editable";
 
-            return (
-              <ProfileRow
-                title={personalData[item]}
-                value={user[item]}
-                borderBottom={bB}
-                icon={profileIcon[item]}
-                key={personalData[item]}
-              />
-            );
-          })}
+              return (
+                <ProfileRow
+                  title={personalData[item]}
+                  value={user[item]}
+                  borderBottom={bB}
+                  icon={profileIcon[item]}
+                  fieldType={item}
+                  isEditable={isEditable}
+                  key={key}
+                  register={register}
+                />
+              );
+            })}
 
-          <Button variant="primary mt-4" disabled={!isButtonEnabled}>
-            Editar Datos
-          </Button>
+            {isEditable && (
+              <Button variant="primary mt-4" type="submit">
+                Guardar
+              </Button>
+            )}
+          </form>
+          {!isEditable && (
+            <Button
+              type="button"
+              variant="btn btn-outline-primary mt-4"
+              disabled={!isButtonEnabled}
+              onClick={() => {
+                setIsEditable(true);
+              }}
+            >
+              Editar Datos
+            </Button>
+          )}
         </Card.Body>
         <div className="attribution">
           Icons made by{" "}
