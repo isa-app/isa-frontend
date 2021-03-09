@@ -4,9 +4,10 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { displayAlert } from "../utils/errors";
 import { LOGIN_URL } from "../utils/constants";
-import Loader from "../components/Loader";
 import axios from "axios";
 import "../assets/styles/components/Login.scss";
+
+// import Loader from "../components/Loader";
 
 const inputTestValues = {
   id: "0000000040",
@@ -71,13 +72,13 @@ const Login = (props) => {
 
   const requiredFieldMessage = "Este campo es requerido";
 
-  if (!isButtonEnabled) {
-    return (
-      <div className="loader container d-flex justify-content-center align-items-center">
-        <Loader />
-      </div>
-    );
-  }
+  // if (!isButtonEnabled) {
+  //   return (
+  //     <div className="loader container d-flex justify-content-center align-items-center">
+  //       <Loader />
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="content-center login container d-flex justify-content-center align-items-center">
@@ -134,6 +135,7 @@ const Login = (props) => {
               <button
                 type="submit"
                 className="btn btn-primary px-5 register_submit_btn"
+                disabled={!isButtonEnabled}
               >
                 Entrar
               </button>

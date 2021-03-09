@@ -6,9 +6,8 @@ import { PROFILE_URL } from "../utils/constants";
 import { displayAlert } from "../utils/errors";
 import axios from "axios";
 import { UPDATE_PROFILE_URL } from "../utils/constants";
+import Loader from "../components/Loader";
 import "../assets/styles/components/Profile.scss";
-
-// import Loader from "../components/Loader";
 
 // const SLOW_REQUEST =
 //   "http://slowwly.robertomurray.co.uk/delay/3000/url/http://www.google.co.uk";
@@ -86,6 +85,8 @@ function Profile(props) {
 
         //
       }
+    } else {
+      setIsEditable(false);
     }
   };
 
@@ -126,14 +127,14 @@ function Profile(props) {
     };
   }, [userId, isUnmounted, user]);
 
-  // if (Object.keys(user).length === 0) {
-  //   return (
-  //     <div className="loader container d-flex justify-content-center align-items-center">
-  //       {/* <Loader type="ThreeDots" /> */}
-  //       <Loader />
-  //     </div>
-  //   );
-  // }
+  if (Object.keys(user).length === 0) {
+    return (
+      <div className="loader container d-flex justify-content-center align-items-center">
+        {/* <Loader type="ThreeDots" /> */}
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div className="content-center my-3 profile_section d-flex justify-content-center align-items-center">

@@ -6,9 +6,10 @@ import { registerRequest } from "../actions";
 import { displayAlert } from "../utils/errors";
 import { REGISTER_URL } from "../utils/constants";
 import axios from "axios";
-import Loader from "../components/Loader";
 import "../assets/styles/components/Register.scss";
 import "../assets/styles/components/Loader.scss";
+
+// import Loader from "../components/Loader";
 
 // const SLOW_REQUEST =
 //   "http://slowwly.robertomurray.co.uk/delay/3000/url/http://www.google.co.uk";
@@ -17,7 +18,7 @@ const inputTestValues = {
   firstName: "Darmund",
   lastName: "Crench",
   typeId: 13,
-  id: "0000000040",
+  id: "0000000042",
   phone: "+9191982",
   email: "crench@holberton.com",
   password: "123456789",
@@ -118,13 +119,13 @@ const Register = (props) => {
   const invalidPasswordConfirmationMsg = "⚠ No coincide";
   const requiredFieldMessage = "Este campo es requerido";
 
-  if (!isButtonEnabled) {
-    return (
-      <div className="loader container d-flex justify-content-center align-items-center">
-        <Loader />
-      </div>
-    );
-  }
+  // if (!isButtonEnabled) {
+  //   return (
+  //     <div className="loader container d-flex justify-content-center align-items-center">
+  //       <Loader />
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="content-center register container d-flex justify-content-center align-items-center">
