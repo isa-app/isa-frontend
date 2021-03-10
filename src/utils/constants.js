@@ -16,3 +16,12 @@ export const PROFILE_URL = `http://${IP}/${PROFILE_ENDPOINT}`;
 
 const UPDATE_PROFILE_ENDPOINT = `${USER_RESOURCE}/update`;
 export const UPDATE_PROFILE_URL = `http://${IP}/${UPDATE_PROFILE_ENDPOINT}`;
+
+export const DEFAULT_CALC_VALUES = {
+  percentage: 17,
+  salary: 3000000,
+  installments: 42,
+  topLimit: 75000000,
+  payedInstallments: 0,
+  payed: 0,
+};

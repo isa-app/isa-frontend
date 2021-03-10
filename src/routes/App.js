@@ -4,6 +4,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Login from "../containers/Login";
 import Register from "../containers/Register";
 import Profile from "../containers/Profile";
+import Calculator from "../containers/Calculator";
 import NotFound from "../containers/NotFound";
 import Layout from "../components/Layout";
 
@@ -15,6 +16,7 @@ const App = () => (
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/profile/:userId" component={Profile} />
+        <Route exact path="/calculator" component={Calculator} />
         <Route component={NotFound} />
       </Switch>
     </Layout>
