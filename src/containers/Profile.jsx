@@ -71,6 +71,7 @@ function Profile(props) {
         if (response.status === 200) {
           // props.registerRequest(data);
           setUser({ ...user, ...data });
+          displayAlert("PROFILE_UPDATE_SUCCESSFUL");
           setIsEditable(false);
         }
         //

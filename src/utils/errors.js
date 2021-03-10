@@ -21,6 +21,12 @@ export function displayAlert(alertType) {
       alert.confirmButtonText = "Intentar con otra ID";
       break;
 
+    case "PROFILE_UPDATE_SUCCESSFUL":
+      alert.title = "Actualización exitosa";
+      alert.icon = "success";
+      alert.confirmButtonText = "Continuar";
+      break;
+
     case "UNAUTHORIZED":
       alert.title = "No está autorizado";
       alert.icon = "warning";
