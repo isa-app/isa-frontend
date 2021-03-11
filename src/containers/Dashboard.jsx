@@ -10,12 +10,11 @@ const Dashboard = (props) => {
   return (
     <>
       <Header>
-        <Nav
-          activeKey="/home"
-          onSelect={(selectedKey) => setSelected(selectedKey)}
-        >
+        <Nav onSelect={(selectedKey) => setSelected(selectedKey)}>
           <Nav.Item>
-            <Nav.Link eventKey="profile">Perfil</Nav.Link>
+            <Nav.Link eventKey="profile" active>
+              Perfil
+            </Nav.Link>
           </Nav.Item>
           <Nav.Item>
             <Nav.Link eventKey="calculator">Calculadora</Nav.Link>
