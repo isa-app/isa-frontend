@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { displayAlert } from "../utils/errors";
 import { LOGIN_URL } from "../utils/constants";
+import Header from "../components/Header";
 import axios from "axios";
 import "../assets/styles/components/Login.scss";
 
@@ -54,7 +55,7 @@ const Login = (props) => {
     try {
       response = await axios.post(LOGIN_URL, postObject, options);
       if (response.status === 201);
-      props.history.push(`/profile/${response.data.uid}`);
+      props.history.push(`/user/${response.data.uid}`);
 
       //
     } catch (err) {
@@ -81,72 +82,77 @@ const Login = (props) => {
   // }
 
   return (
-    <div className="content-center login container d-flex justify-content-center align-items-center">
-      <div className="card mx-md-4 my-4 px-4 py-1 login-form">
-        <div className="card-body p-0">
-          {/* Form Login */}
-          <form className="m-3" onSubmit={handleSubmit(onSubmit)}>
-            <h2 className="pb-2 d-flex flex justify-content-center">
-              Iniciar sesión
-            </h2>
+    <>
+      <Header>
+        <Link to="/register">Registrarse</Link>
+      </Header>
+      <div className="content-center login container d-flex justify-content-center align-items-center">
+        <div className="card mx-md-4 my-4 px-4 py-1 login-form">
+          <div className="card-body p-0">
+            {/* Form Login */}
+            <form className="m-3" onSubmit={handleSubmit(onSubmit)}>
+              <h2 className="pb-2 d-flex flex justify-content-center">
+                Iniciar sesión
+              </h2>
 
-            {/* User */}
-            <div className="form-row">
-              <div className="form-group col-12">
-                <label htmlFor="user">Número de identificación</label>
-                <input
-                  type="text"
-                  id="user"
-                  name="user"
-                  className="form-control"
-                  ref={register({ required: true })}
-                  defaultValue={inputTestValues.id}
-                />
-                {errors.user && (
-                  <span className="required_message">
-                    {requiredFieldMessage}
-                  </span>
-                )}
+              {/* User */}
+              <div className="form-row">
+                <div className="form-group col-12">
+                  <label htmlFor="user">Número de identificación</label>
+                  <input
+                    type="text"
+                    id="user"
+                    name="user"
+                    className="form-control"
+                    ref={register({ required: true })}
+                    defaultValue={inputTestValues.id}
+                  />
+                  {errors.user && (
+                    <span className="required_message">
+                      {requiredFieldMessage}
+                    </span>
+                  )}
+                </div>
               </div>
-            </div>
 
-            {/* Password */}
-            <div className="form-row">
-              <div className="form-group col-12">
-                <label htmlFor="password">Contraseña</label>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  className="form-control"
-                  ref={register({ required: true })}
-                  defaultValue={inputTestValues.password}
-                />
-                {errors.password && (
-                  <span className="required_message">
-                    {requiredFieldMessage}
-                  </span>
-                )}
+              {/* Password */}
+              <div className="form-row">
+                <div className="form-group col-12">
+                  <label htmlFor="password">Contraseña</label>
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    className="form-control"
+                    ref={register({ required: true })}
+                    defaultValue={inputTestValues.password}
+                  />
+                  {errors.password && (
+                    <span className="required_message">
+                      {requiredFieldMessage}
+                    </span>
+                  )}
+                </div>
               </div>
-            </div>
 
-            {/* Submit */}
-            <div className="d-flex flex-column flex-md-row align-items-center justify-content-between mt-4">
-              <button
-                type="submit"
-                className="btn btn-primary px-5 register_submit_btn"
-                disabled={!isButtonEnabled}
-              >
-                Entrar
-              </button>
-              <Link to="/register">
-                <p className="register_to_login">Registro</p>
-              </Link>
-            </div>
-          </form>
+              {/* Submit */}
+              <div className="d-flex flex-column flex-md-row align-items-center justify-content-between mt-4">
+                <button
+                  type="submit"
+                  className="btn btn-primary px-5 register_submit_btn"
+                  disabled={!isButtonEnabled}
+                >
+                  Entrar
+                </button>
+                <Link to="/register">
+                  <p className="register_to_login">Registro</p>
+                </Link>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

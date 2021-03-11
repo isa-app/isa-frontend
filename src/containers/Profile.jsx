@@ -7,6 +7,8 @@ import { displayAlert } from "../utils/errors";
 import axios from "axios";
 import { UPDATE_PROFILE_URL } from "../utils/constants";
 import Loader from "../components/Loader";
+import { connect } from "react-redux";
+import { profileRequest } from "../actions";
 import "../assets/styles/components/Profile.scss";
 
 // const SLOW_REQUEST =
@@ -30,10 +32,9 @@ const profileIcon = {
   phone: "flaticon-phone-call",
 };
 
-function Profile(props) {
-  const { userId } = props.match.params;
+function Profile({ user, match, profileRequest }) {
+  const { userId } = match.params;
 
-  const [user, setUser] = useState({});
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
   const [isUnmounted, setIsUnmounted] = useState(false);
   const [isEditable, setIsEditable] = useState(false);
@@ -69,8 +70,7 @@ function Profile(props) {
           options
         );
         if (response.status === 200) {
-          // props.registerRequest(data);
-          setUser({ ...user, ...data });
+          profileRequest({ ...user, ...data });
           displayAlert("PROFILE_UPDATE_SUCCESSFUL");
           setIsEditable(false);
         }
@@ -104,7 +104,7 @@ function Profile(props) {
         try {
           response = await axios.get(`${PROFILE_URL}/${userId}`, options);
           if (response.status === 200) {
-            setUser(response.data.user);
+            profileRequest(response.data.user);
             setIsButtonEnabled(true);
           }
         } catch (err) {
@@ -118,6 +118,8 @@ function Profile(props) {
           }
         }
       })();
+    } else {
+      setIsButtonEnabled(true);
     }
 
     return () => {
@@ -126,7 +128,7 @@ function Profile(props) {
       if (cancelEdit.current)
         cancelEdit.current.cancel("Profile Update Canceled");
     };
-  }, [userId, isUnmounted, user]);
+  }, [userId, isUnmounted, user, profileRequest]);
 
   if (Object.keys(user).length === 0) {
     return (
@@ -200,4 +202,14 @@ function Profile(props) {
   );
 }
 
-export default Profile;
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+
+const mapDispatchToProps = {
+  profileRequest,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
