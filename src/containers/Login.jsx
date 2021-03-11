@@ -1,11 +1,13 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { displayAlert } from "../utils/errors";
 import { LOGIN_URL } from "../utils/constants";
 import Header from "../components/Header";
 import axios from "axios";
+import { loginRequest } from "../actions";
 import "../assets/styles/components/Login.scss";
 
 // import Loader from "../components/Loader";
@@ -15,7 +17,7 @@ const inputTestValues = {
   password: "123456789",
 };
 
-const Login = (props) => {
+const Login = ({ loginRequest, history }) => {
   const [isUnmounted, setIsUnmounted] = useState(false);
   const [isButtonEnabled, setIsButtonEnabled] = useState(true);
 
@@ -55,7 +57,8 @@ const Login = (props) => {
     try {
       response = await axios.post(LOGIN_URL, postObject, options);
       if (response.status === 201);
-      props.history.push(`/user/${response.data.uid}`);
+      loginRequest({});
+      history.push(`/user/${response.data.uid}`);
 
       //
     } catch (err) {
@@ -156,5 +159,9 @@ const Login = (props) => {
   );
 };
 
-export default Login;
-//export default connect(null, mapDispatchToProps)(Login);
+const mapDispatchToProps = {
+  loginRequest,
+};
+
+// export default Register;
+export default connect(null, mapDispatchToProps)(Login);

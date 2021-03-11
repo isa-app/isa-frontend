@@ -7,6 +7,7 @@ import { displayAlert } from "../utils/errors";
 import { REGISTER_URL } from "../utils/constants";
 import Header from "../components/Header";
 import axios from "axios";
+import { registerRequest } from "../actions";
 import "../assets/styles/components/Register.scss";
 import "../assets/styles/components/Loader.scss";
 
@@ -26,7 +27,7 @@ const inputTestValues = {
   passwordConfirmation: "123456789",
 };
 
-const Register = (props) => {
+const Register = ({ registerRequest, history }) => {
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [isValidPassword, setisValidPassword] = useState(false);
   const [isMatchedPassword, setIsMatchedPassword] = useState(false);
@@ -74,9 +75,8 @@ const Register = (props) => {
     try {
       response = await axios.post(REGISTER_URL, postObject, options);
       if (response.status === 201) {
-        // props.registerRequest(data);
-
-        props.history.push(`/user/${response.data.uid}`);
+        registerRequest({});
+        history.push(`/user/${response.data.uid}`);
       }
       //
     } catch (err) {
@@ -343,9 +343,9 @@ const Register = (props) => {
   );
 };
 
-// const mapDispatchToProps = {
-//   registerRequest,
-// };
+const mapDispatchToProps = {
+  registerRequest,
+};
 
 // export default Register;
-export default connect(null, null)(Register);
+export default connect(null, mapDispatchToProps)(Register);
