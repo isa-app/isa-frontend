@@ -28,8 +28,4 @@ const Dashboard = (props) => {
   );
 };
 
-const mapDispatchToProps = {
-  registerRequest,
-};
-
-export default connect(null, mapDispatchToProps)(Dashboard);
+export default Dashboard;
